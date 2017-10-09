@@ -1,0 +1,32 @@
+<!DOCUMENT html>
+<html>
+	<head>
+		<title>PingMe</title>
+		<link rel="stylesheet" type="text/css" href="styles.css"/>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jstimezonedetect/1.0.4/jstz.min.js"></script>
+		<script src="jquery.cookie.js"></script>
+		<script src="codes.js"></script>
+	</head>
+	<body>
+		<div id="alerts" class="centered"><h3></h3></div>
+		<div id="container" class="centered">
+			<div id="pingMessage">
+				<h3 class="message" style="display:block;"></h3>
+				<div class="hidden" style="display:none;">
+					<div class="messageText" contenteditable="true" placeholder="Write your message here."></div>
+					<div id="lenght"></div>
+				</div>
+			</div>
+			<div id="pingNumber"><h3>ping #<span class="pings"></span></h3></div>
+			<!--
+			<div id="navContainer"><img class="older" title="older pings" src="img/arow_left.png"><img class="newer" title="newer pings" src="img/arow_right.png"></div>
+			-->
+			<div id="pingButton" class="ping" title="send a ping">Send a Ping</div>
+		</div>
+		<div id="chatContainer"><div id="loading" style="visibility:hidden;">Loading...</div><div id="chatLog"></div><input class="chatText" type="text"><div id="sendChat">Send</div></div>
+		<div class="watermark">Created by - <a href="http://www.thelifeisyours.0fees.net" target="_blank">TheLifeIsYours</a></div>
+		<audio id="pingSound"><source src=""></audio>
+	</body>
+</html>

@@ -1,0 +1,91 @@
+body {
+	font-family: 'Roboto', 'Trebuchet MS', Tahoma, Segoe UI, 'Ubuntu', Arial, sans-serif !important;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	background-color: #0f0f0f;
+	color: #aaaaaa;
+	font-size: 9.5pt;
+	-webkit-font-smoothing: antialiased;
+}
+
+a {
+	color: rgba(255, 255, 255, 0.77);
+}
+
+#container {
+	position: relative;
+	margin: 0 auto;
+	height: 25em;
+	width: 40em;
+	border: solid 1px #262626;
+	border-radius: .7em;
+	box-shadow: 0em 0em 3em 0em rgb(79, 79, 79);
+	background: rgb(242, 242, 242);
+	padding: 1em;
+	transition: background ease 2s;
+}
+
+#pingMessage {
+	height: 15em;
+	width: 40em;
+	margin: 0 auto;
+	border: solid 1px;
+	text-align: center;
+	display: table-cell;
+	vertical-align: middle;
+}
+
+.centered {
+	transform: translate(-50%, -50%);
+	position: fixed!important;
+	margin: none!important;
+	left: 50%;
+	top: 50%;
+}
+
+#lengthContainer {
+    position: relative;
+    margin: 0 auto;
+	width: 5%;
+	height: 15px;
+}
+
+#pingNumber {
+    width: 20%;
+    margin: 0 auto;
+    color: gray;
+    font-size: x-large;
+    padding: 0.5em;
+}
+
+#pingNumber>h3, #message, .messageText, #alerts>h3 {
+	padding: 11px 10px 0 0;
+	font-size: 1.6em;
+	font-weight: 400;
+}
+
+.messageText, #message {
+	word-break: break-word;
+}
+
+.button {
+	position: relative;
+	width: 27%;
+	height: 4em;
+	margin: 0px auto;
+	border: 1px solid black;
+	text-align: center;
+	vertical-align: middle;
+	line-height: 4em;
+	border-radius: .4em;
+	cursor: pointer;
+}
+
+#watermark {
+	position: fixed;
+	bottom: .5em;
+	right: 1em;
+	color: rgba(255,255,255,0.5);
+	font-size: larger;
+}

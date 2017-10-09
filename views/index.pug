@@ -1,0 +1,152 @@
+extends layout
+
+block content
+  script.
+    $(document).ready(function(){
+      //Connect socket
+      const socket = io.connect('http://localhost:3000');
+
+      //Get placeholder
+      const placeholder = $("#editor").html();
+
+      //set post lenght
+      const postLenght = 100;
+
+      //on connection talk to server
+      socket.on('connect', function(){
+        socket.emit('event','Client connected and want a new update');
+        socket.emit('updatePing');
+      });
+
+      //Recieve ping updates
+      socket.on('updatePing', function(data) {
+        socket.emit('event','Client recieved new update');
+        document.getElementById("message").innerText = data.message;
+        document.getElementById("pings").innerText = data.number;
+      });
+
+      //When a new ping is recieved
+      socket.on('newPing', function(){
+        playPing();
+        displayAlert();
+      })
+
+      //Toggle Editor
+      $("#openEditor").click(function(){
+        toggleElements();
+      });
+
+      //get random ping sound source to play 
+      function randSource(){
+        let num = Math.floor(Math.random() * (4 - 1 + 1)) + 1;
+        let src = 'public/audio/ping'+num+'.mp3';
+        return src;
+      }
+
+      //Elements to be toggled when opening and closing the editor
+      function toggleElements(){
+        $(".toggle").toggle();
+      }
+
+      //clear the editor
+      function cleanEditor(){
+        $("#editor").html("");
+      }
+
+      //chenge editor back to placeholder
+      function resetEditor(){
+          $("#editor").html(placeholder);
+      }
+
+      //Get current text in editor
+      function editorText(){
+        return $("#editor").html();
+      }
+
+      //Play Ping sound when recieved a new ping
+      function playPing(){
+        $('#pingSound>source').attr('src', randSource());
+        $('#pingSound').trigger('load');
+        $('#pingSound').prop("volume", 0.2);
+        $('#pingSound').trigger('play');
+      }
+
+      //Visual changes when  new ping is recieved
+      function displayAlert(){
+        $("#container").css({background:"rgb(101, 245, 143)"}).delay(1000).queue(function(){
+          $(this).css({background:"rgb(245, 245, 245)"});
+          $(this).dequeue();
+        });
+      }
+
+      //Send a new ping
+      function sendPing(){
+        if(editorText() != placeholder && editorText().length >= 1 && editorText().length <= 100){
+          socket.emit('event', 'Sent new ping');
+          socket.emit('sendPing', editorText());
+        }
+        resetEditor();
+        toggleElements();
+      }
+
+      //on focusIn remove editor placeholder
+      $("#editor").focusin(function(e){
+        if(editorText() == placeholder){
+          cleanEditor();
+        }
+      });
+
+      //on focusOut set editor placeholder
+      $("#editor").focusout(function(){
+        if(editorText().length == 0){
+          resetEditor();
+        }
+      });
+
+      //Update the character counter
+      $(document).on('keyup keydown click', function(){
+        let len = editorText().length;
+        if(editorText() == placeholder)len = 0;
+
+        let lenLeft = postLenght - len;
+
+        $('#length').html(lenLeft);
+        $('#length').attr('title', lenLeft+"/"+postLenght);
+
+        if(len > postLenght){
+          $('#length').css({"color":"rgb(238, 68, 68)"});
+        }else if(len > postLenght-20){
+          $('#length').css({"color":"rgb(219, 127, 127)"});
+        }
+      });
+
+      //On enter send Ping
+      $("#editor").keypress(function(e){
+        if(e.keyCode == 13){
+          sendPing();
+        }
+      });
+
+      //On button click send Ping
+      $("#sendPing").click(function(){
+        sendPing();
+      });
+    });
+
+  title= title
+  div(id="container" class="centered")
+    div(id="pingMessage")
+      h3(id="message" class="toggle" style="dislay:block;")
+      div(id="hidden" class="toggle" style="display:none;")
+        div(id="editor" class="messageText" contenteditable="true") Write your message here.
+    div(id="lengthContainer")
+      div(id="length" class="toggle" style="display:none;" title="0/100")
+    div(id="pingNumber") ping #
+      span(id="pings")
+    div(id="openEditor" class="button toggle" style="display:block;" title="send a ping") Send a Ping
+    div(id="sendPing" class="button toggle" style="display:none;" title="Send") Send
+  div(id="watermark")
+    span Created by - 
+      a(href="/") TheLifeIsYours
+  audio(id="pingSound")
+    source(src="")
